@@ -1,6 +1,7 @@
 (ns training.core-test
   (:require [clojure.test :refer :all]
-            [training.core :refer :all]))
+            [training.core :refer :all]
+            [clojure.set]))
 
 ;; Training program for book "Living Clojure"
 ;; Koans from 4clojure.com
@@ -92,3 +93,79 @@
     (is (= 3 (first '(3 2 1))))
     (is (= 3 (second [2 3 4])))
     (is (= 3 (last (list 1 2 3))))))
+
+
+;;;  DAY   2  ------------------------------------------------------------
+
+;; #13
+;; (= __ (rest [10 20 30 40]))
+(deftest test-13
+  (testing "#13"
+    (is (= [20 30 40] (rest [10 20 30 40])))))
+
+;; #14
+;; (= __ ((fn add-five [x] (+ x 5)) 3))
+;; (= __ ((fn [x] (+ x 5)) 3))
+;; (= __ (#(+ % 5) 3))
+;; (= __ ((partial + 5) 3))
+(deftest test-14
+  (testing "#14"
+    (is (= 8 ((fn add-five [x] (+ x 5)) 3)))
+    (is (= 8 ((fn [x] (+ x 5)) 3)))
+    (is (= 8 (#(+ % 5) 3)))
+    (is (= 8 ((partial + 5) 3)))))
+
+;; #15
+;; (= (__ 2) 4)
+;; (= (__ 3) 6)
+;; (= (__ 11) 22)
+;; (= (__ 7) 14)
+(deftest test-15
+  (testing "#15"
+    (is (= (#(* % 2) 2) 4))
+    (is (= (#(* % 2) 3) 6))
+    (is (= (#(* % 2) 11) 22))
+    (is (= (#(* % 2) 7) 14))))
+
+;; #16
+;; (= (__ "Dave") "Hello, Dave!")
+;; (= (__ "Jenn") "Hello, Jenn!")
+;; (= (__ "Rhea") "Hello, Rhea!")
+(deftest test-16
+  (testing "#16"
+    (is (= (#(str "Hello, " % "!") "Dave") "Hello, Dave!"))
+    (is (= (#(str "Hello, " % "!") "Jenn") "Hello, Jenn!"))
+    (is (= (#(str "Hello, " % "!") "Rhea") "Hello, Rhea!"))))
+
+;; #17
+;; (= __ (map #(+ % 5) '(1 2 3)))
+(deftest test-17
+  (testing "#17"
+    (is (= '(6 7 8) (map #(+ % 5) '(1 2 3))))))
+
+;; #18
+;; (= __ (filter #(> % 5) '(3 4 5 6 7)))
+(deftest test-18
+  (testing "#18"
+    (is (= '(6 7) (filter #(> % 5) '(3 4 5 6 7))))))
+
+;; #35
+;; (= __ (let [x 5] (+ 2 x)))
+;; (= __ (let [x 3, y 10] (- y x)))
+;; (= __ (let [x 21] (let [y 3] (/ x y))))
+(deftest test-35
+  (testing "#35"
+    (is (= 7 (let [x 5] (+ 2 x))))
+    (is (= 7 (let [x 3, y 10] (- y x))))
+    (is (= 7 (let [x 21] (let [y 3] (/ x y)))))))
+
+
+;; #36
+;; (= 10 (let __ (+ x y)))
+;; (= 4 (let __ (+ y z)))
+;; (= 1 (let __ z))
+(deftest test-36
+  (testing "#36"
+    (is (= 10 (let [x 7, y 3, z 1] (+ x y))))
+    (is (= 4 (let [x 7, y 3, z 1] (+ y z))))
+    (is (= 1 (let [x 7, y 3, z 1] z)))))
