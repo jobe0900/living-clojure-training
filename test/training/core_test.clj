@@ -169,3 +169,80 @@
     (is (= 10 (let [x 7, y 3, z 1] (+ x y))))
     (is (= 4 (let [x 7, y 3, z 1] (+ y z))))
     (is (= 1 (let [x 7, y 3, z 1] z)))))
+
+
+;;;  DAY   3  ------------------------------------------------------------
+
+;; #37
+;; (= __ (apply str (re-seq #"[A-Z]+" "bA1B3Ce ")))
+(deftest test-37
+  (testing "#37"
+    (is (= "ABC" (apply str (re-seq #"[A-Z]+" "bA1B3Ce "))))))
+
+;; #57
+;; (= __ ((fn foo [x] (when (> x 0) (conj (foo (dec x)) x))) 5))
+(deftest test-57
+  (testing "#57"
+    (is (= '(5 4 3 2 1)  ((fn foo [x] 
+               (when (> x 0) 
+                 (conj (foo (dec x)) x)))
+             5)))))
+
+;; #68
+;; (= __
+;;  (loop [x 5
+;;         result []]
+;;    (if (> x 0)
+;;      (recur (dec x) (conj result (+ 2 x)))
+;;      result)))
+(deftest test-68
+  (testing "#68"
+    (is (=  [7 6 5 4 3] (loop [x 5 
+                   result []] 
+              (if (> x 0) 
+                (recur (dec x) (conj result (+ 2 x))) 
+                result))))))
+
+;; #71
+;; (= (__ (sort (rest (reverse [2 5 4 1 3 6]))))
+;;    (-> [2 5 4 1 3 6] (reverse) (rest) (sort) (__))
+;;    5)
+(deftest test-71
+  (testing "#71"
+    (is (= (last (sort (rest (reverse [2 5 4 1 3 6])))) 
+           (-> [2 5 4 1 3 6] (reverse) (rest) (sort) (last)) 
+           5))))
+
+;; #72
+;; (= (__ (map inc (take 3 (drop 2 [2 5 4 1 3 6]))))
+;;    (->> [2 5 4 1 3 6] (drop 2) (take 3) (map inc) (__))
+;;    11)
+(deftest test-72
+  (testing "#72"
+    (is (= (reduce + (map inc (take 3 (drop 2 [2 5 4 1 3 6])))) 
+           (->> [2 5 4 1 3 6] (drop 2) (take 3) (map inc) (reduce +)) 
+           11))))
+
+;; #145
+;; (= __ (for [x (range 40)
+;;             :when (= 1 (rem x 4))]
+;;         x))
+;;
+;; (= __ (for [x (iterate #(+ 4 %) 0)
+;;             :let [z (inc x)]
+;;             :while (< z 40)]
+;;         z))
+;;
+;; (= __ (for [[x y] (partition 2 (range 20))]
+;;         (+ x y)))
+(deftest test-145
+  (testing "#145"
+    (is (= [1 5 9 13 17 21 25 29 33 37] (for [x (range 40) 
+                    :when (= 1 (rem x 4))] 
+                x)))
+    (is (= [1 5 9 13 17 21 25 29 33 37] (for [x (iterate #(+ 4 %) 0) 
+                    :let [z (inc x)] 
+                    :while (< z 40)] 
+                z)))
+    (is (= [1 5 9 13 17 21 25 29 33 37] (for [[x y] (partition 2 (range 20))] 
+                (+ x y))))))
