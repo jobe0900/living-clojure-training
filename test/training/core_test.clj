@@ -246,3 +246,77 @@
                 z)))
     (is (= [1 5 9 13 17 21 25 29 33 37] (for [[x y] (partition 2 (range 20))] 
                 (+ x y))))))
+
+
+;;;  DAY   4  ------------------------------------------------------------
+
+;; #20
+;; (= (__ (list 1 2 3 4 5)) 4)
+;; (= (__ ["a" "b" "c"]) "b")
+;; (= (__ [[1 2] [3 4]]) [1 2])
+(defn func-20 [coll]
+  (first (rest (reverse coll))))
+(deftest test-20 
+  (testing "#20"
+    (is (= (func-20 (list 1 2 3 4 5)) 4))
+    (is (= (func-20 ["a" "b" "c"]) "b"))
+    (is (= (func-20 [[1 2] [3 4]]) [1 2]))))
+
+;; #24
+;; (= (__ [1 2 3]) 6)
+;; (= (__ (list 0 -2 5 5)) 8)
+;; (= (__ #{4 2 1}) 7)
+;; (= (__ '(0 0 -1)) -1)
+;; (= (__ '(1 10 3)) 14)
+(defn func-24 [coll]
+  (reduce + coll))
+(deftest test-24
+  (testing "#24"
+    (is (= (func-24 [1 2 3]) 6))
+    (is (= (func-24 (list 0 -2 5 5)) 8))
+    (is (= (func-24 #{4 2 1}) 7))
+    (is (= (func-24 '(0 0 -1)) -1))
+    (is (= (func-24 '(1 10 3)) 14))))
+
+;; #25
+;; (= (__ #{1 2 3 4 5}) '(1 3 5))
+;; (= (__ [4 2 1 6]) '(1))
+;; (= (__ [2 2 4 6]) '())
+;; (= (__ [1 1 1 3]) '(1 1 1 3))
+(defn func-25 [coll]
+  (filter odd? coll))
+(deftest test-25
+  (testing "#25"
+    (is (= (func-25 #{1 2 3 4 5}) '(1 3 5)))
+    (is (= (func-25 [4 2 1 6]) '(1)))
+    (is (= (func-25 [2 2 4 6]) '()))
+    (is (= (func-25 [1 1 1 3]) '(1 1 1 3)))))
+
+;; #27
+;; (false? (__ '(1 2 3 4 5)))
+;; (true? (__ "racecar"))
+;; (true? (__ [:foo :bar :foo]))
+;; (true? (__ '(1 1 3 3 1 1)))
+;; (false? (__ '(:a :b :c)))
+(defn func-27 [coll]
+  (let [s (seq coll)]
+    (= s (reverse s))))
+(deftest test-27
+  (testing "#27"
+    (is (false? (func-27 '(1 2 3 4 5))))
+    (is (true? (func-27 "racecar")))
+    (is (true? (func-27 [:foo :bar :foo])))
+    (is (true? (func-27 '(1 1 3 3 1 1))))
+    (is (false? (func-27 '(:a :b :c))))))
+
+;; #32
+;; (= (__ [1 2 3]) '(1 1 2 2 3 3))
+;; (= (__ [:a :a :b :b]) '(:a :a :a :a :b :b :b :b))
+;; (= (__ [[1 2] [3 4]]) '([1 2] [1 2] [3 4] [3 4]))
+(defn func-32 [coll]
+   (mapcat list coll coll))
+(deftest test-32
+  (testing "#32"
+    (is (= (func-32 [1 2 3]) '(1 1 2 2 3 3)))
+    (is (= (func-32 [:a :a :b :b]) '(:a :a :a :a :b :b :b :b)))
+    (is (= (func-32 [[1 2] [3 4]]) '([1 2] [1 2] [3 4] [3 4])))))
