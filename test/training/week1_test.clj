@@ -1,6 +1,5 @@
-(ns training.core-test
+(ns training.week1-test
   (:require [clojure.test :refer :all]
-            [training.core :refer :all]
             [clojure.set]))
 
 ;; Training program for book "Living Clojure"
