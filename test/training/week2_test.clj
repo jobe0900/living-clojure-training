@@ -56,3 +56,47 @@
   (testing "#52"
     (is (= [2 4] (let [[a b c d e] [0 1 2 3 4]] [c e])))))
 
+
+;;;  DAY   2  ------------------------------------------------------------
+
+;; #51
+;; (= [1 2 [3 4 5] [1 2 3 4 5]] (let [[a b & c :as d] __] [a b c d]))
+(deftest test-51
+  (testing "#51"
+    (is (= [1 2 [3 4 5] [1 2 3 4 5]] 
+           (let [[a b & c :as d] [1 2 3 4 5 ]] [a b c d])))))
+
+;; #83
+;; (= false (__ false false))
+;; (= true (__ true false))
+;; (= false (__ true))
+;; (= true (__ false true false))
+;; (= false (__ true true true))
+;; (= true (__ true true true false))
+(defn func-83 [& args]
+  (and (not (= nil (some true? args))) (not (every? true? args))))
+(deftest test-83
+  (testing "#83"
+    (is (= false (func-83 false false)))
+    (is (= true (func-83 true false)))
+    (is (= false (func-83 true)))
+    (is (= true (func-83 false true false)))
+    (is (= false (func-83 true true true)))
+    (is (= true (func-83 true true true false)))))
+
+
+;; #66
+;; (= (__ 2 4) 2)
+;; (= (__ 10 5) 5)
+;; (= (__ 5 7) 1)
+;; (= (__ 1023 858) 33)
+(defn func-66 [x y]
+  (if (zero? y)
+    x
+    (recur y (mod x y))))
+(deftest test-66
+  (testing "#66"
+    (is (= (func-66 2 4) 2))
+    (is (= (func-66 10 5) 5))
+    (is (= (func-66 5 7) 1))
+    (is (= (func-66 1023 858) 33))))
