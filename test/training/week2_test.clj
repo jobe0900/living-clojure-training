@@ -144,3 +144,52 @@
            #{[1 4] [2 4] [3 4] [1 5] [2 5] [3 5]}))
     (is (= 300 (count (func-90 (into #{} (range 10)) 
                           (into #{} (range 30))))))))
+
+
+
+;;;  DAY   4  ------------------------------------------------------------
+
+;; #88
+;; (= (__ #{1 2 3 4 5 6} #{1 3 5 7}) #{2 4 6 7})
+;; (= (__ #{:a :b :c} #{}) #{:a :b :c})
+;; (= (__ #{} #{4 5 6}) #{4 5 6})
+;; (= (__ #{[1 2] [2 3]} #{[2 3] [3 4]}) #{[1 2] [3 4]})
+(defn func-88 [a b]
+  (clojure.set/union (clojure.set/difference a b) (clojure.set/difference b a)))
+(deftest test-88
+  (testing "#88"
+    (is (= (func-88 #{1 2 3 4 5 6} #{1 3 5 7}) #{2 4 6 7}))
+    (is (= (func-88 #{:a :b :c} #{}) #{:a :b :c}))
+    (is (= (func-88 #{} #{4 5 6}) #{4 5 6}))
+    (is (= (func-88 #{[1 2] [2 3]} #{[2 3] [3 4]}) #{[1 2] [3 4]}))))
+
+;; #100
+;; (== (__ 2 3) 6)
+;; (== (__ 5 3 7) 105)
+;; (== (__ 1/3 2/5) 2)
+;; (== (__ 3/4 1/6) 3/2)
+;; (== (__ 7 5/7 2 3/5) 210)
+;; ANSWER: contracted version without defn
+;; (fn lcm
+;;   ([x y] (/ (* x y) 
+;;             ((fn gcd [x y] 
+;;                (if (zero? y) 
+;;                  x 
+;;                  (recur y (mod x y)))) x y))) 
+;;   ([x y & rest] (apply lcm (lcm x y) rest)))
+(defn gcd [x y]
+  (if (zero? y)
+    x
+    (recur y (mod x y))))
+(defn lcm 
+  ([x y] (/ (* x y) (gcd x y)))
+  ([x y & rest] (apply lcm (lcm x y) rest)))
+(defn func-100 [& args]
+  (apply lcm args))
+(deftest test-100
+  (testing "#100"
+    (is (== (func-100 2 3) 6))
+    (is (== (func-100 5 3 7) 105))
+    (is (== (func-100 1/3 2/5) 2))
+    (is (== (func-100 3/4 1/6) 3/2))
+    (is (== (func-100 7 5/7 2 3/5) 210))))
