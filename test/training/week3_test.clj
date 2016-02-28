@@ -156,3 +156,18 @@
     (is (= (last (func-67 100)) 541))))
 
 
+;;;  DAY   5  ------------------------------------------------------------
+
+;; #77
+;; (= (__ ["meat" "mat" "team" "mate" "eat"])
+;;    #{#{"meat" "team" "mate"}})
+;; (= (__ ["veer" "lake" "item" "kale" "mite" "ever"])
+;;    #{#{"veer" "ever"} #{"lake" "kale"} #{"mite" "item"}})
+(defn func-77 [s]
+  (set (map set (filter #(> (count %) 1) (vals (group-by frequencies s))))))
+(deftest test-77
+  (testing "#77"
+    (is (= (func-77 ["meat" "mat" "team" "mate" "eat"]) 
+           #{#{"meat" "team" "mate"}}))
+    (is (= (func-77 ["veer" "lake" "item" "kale" "mite" "ever"]) 
+           #{#{"veer" "ever"} #{"lake" "kale"} #{"mite" "item"}}))))
